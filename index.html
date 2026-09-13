@@ -929,7 +929,7 @@
     </div>
 
     <!-- 二级：个股事件情报（参照微证券「自选情报」样式） -->
-    <div class="m-page" :class="{on: mView==='l2' || mView==='l3'}">
+    <div class="m-page" :class="{on: mView==='l2'}">
       <div class="wz-nav">
         <button class="wz-back" @click="mBack">‹</button>
       </div>
@@ -1029,7 +1029,7 @@
             <b :style="{color: sc.color}">若{{ sc.k }} →</b>
             {{ sc.v }}
           </div>
-          <div style="font-size:12px;color:var(--td-text-color-placeholder);line-height:20px;margin-top:8px;">情景分档只写条件与传导路径，不预测哪一档会发生；事件落地后按实际值对照回填。</div>
+          <div style="font-size:12px;color:var(--td-text-color-placeholder);line-height:20px;margin-top:8px;">三档只写条件与对应结果，不预测哪一档会发生。</div>
         </template>
 
         <!-- 通用影响分析 -->
