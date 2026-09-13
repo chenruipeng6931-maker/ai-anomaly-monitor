@@ -241,7 +241,6 @@
   .wz-top { background:#fff; padding:2px 16px 16px; }
   .wz-top-title { display:flex; align-items:flex-start; gap:10px; }
   .wz-top-title h2 { margin:0; font-size:26px; font-weight:700; letter-spacing:-.4px; color:#111; line-height:1.3; }
-  .wz-top-title svg { margin-left:auto; margin-top:3px; color:#111; flex-shrink:0; }
 
   .wz-chips { display:flex; gap:10px; padding:0 16px 14px; background:#fff; overflow-x:auto; }
   .wz-chip { flex-shrink:0; border:1px solid transparent; background:#f4f5f7; color:#4b5158;
@@ -527,7 +526,7 @@
           <span v-if="m.key==='alerts' && unread" style="margin-left:auto;background:#D54941;color:#fff;border-radius:999px;font-size:11px;line-height:16px;padding:0 7px;font-weight:600;">{{ unread }}</span>
         </div>
       </nav>
-      <div class="side-foot">按 Agent 运行手册（SOP）实现<br>演示数据均为模拟</div>
+      <div class="side-foot">按 Agent 运行手册实现<br>行情为 2026-09-11 真实收盘，数据与事件均标注来源</div>
     </aside>
 
     <div class="main">
@@ -726,7 +725,7 @@
               <div class="card-title">数据飞轮：越用越准的核验闸门</div>
               <div class="flywheel" style="margin-top:16px;">
                 <div class="fw-node"><b>用户自选池</b><span>真实关注标的+行业标签</span></div><span class="fw-arrow">→</span>
-                <div class="fw-node"><b>前瞻+归因推送</b><span>SOP 规则化产出</span></div><span class="fw-arrow">→</span>
+                <div class="fw-node"><b>前瞻 + 归因推送</b><span>按规则化流程产出</span></div><span class="fw-arrow">→</span>
                 <div class="fw-node"><b>采纳/误报反馈</b><span>闸门判定准确率回流</span></div><span class="fw-arrow">→</span>
                 <div class="fw-node"><b>阈值与映射迭代</b><span>个性化信号集合进化</span></div><span class="fw-arrow">↺</span>
               </div>
@@ -938,7 +937,6 @@
         <div class="wz-top">
           <div class="wz-top-title">
             <h2>{{ mStock.name }} 事件情报</h2>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </div>
         </div>
 
