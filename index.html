@@ -280,7 +280,7 @@
   .wz-foot { padding:16px 16px 4px; text-align:center; font-size:11px; color:#b3b9c1; }
 
   /* ===== 一级页 · 自选列表（参照微证券「自选股」样式） ===== */
-  .wl { padding-bottom:calc(64px + env(safe-area-inset-bottom)); }
+  .wl { padding-bottom:10px; }
   .wl-head { background:#fff; padding:14px 16px 8px; }
   .wl-head-row { display:flex; align-items:center; gap:10px; }
   .wl-logo { width:32px; height:32px; border-radius:8px; flex-shrink:0;
@@ -323,6 +323,8 @@
   .wl-tag.low { background:#f0f1f3; color:#7b838c; }
   .wl-risk { font-size:12px; color:#9aa0a6; margin-top:7px; overflow:hidden;
     text-overflow:ellipsis; white-space:nowrap; }
+  .wl-time { display:inline-block; margin-right:6px; padding:0 5px; border-radius:3px;
+    background:#f2f4f7; color:#5c636e; font-size:11px; font-weight:600; font-variant-numeric:tabular-nums; }
   .wl-right { flex-shrink:0; text-align:right; }
   .wl-price { font-size:17px; font-weight:600; color:#111; font-variant-numeric:tabular-nums; }
   .wl-chg { display:inline-block; min-width:76px; text-align:center; margin-top:7px; padding:3px 8px;
@@ -342,17 +344,8 @@
   .wl-sheet-body { margin-top:8px; max-height:44vh; overflow-y:auto; }
   .wl-sheet-tip { margin-top:10px; text-align:center; font-size:11px; color:#b3b9c1; }
 
-  .wl-tabbar { position:fixed; left:0; right:0; bottom:0; height:56px; z-index:20; display:none;
-    background:#fff; border-top:1px solid #eceef1; padding-bottom:env(safe-area-inset-bottom); }
-  @media (max-width:768px) { .wl-tabbar { display:flex; } }
-  .wl-tb { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:4px; border:none; background:none; font-family:inherit; cursor:pointer; color:#8a9099; }
-  .wl-tb span { font-size:11px; }
-  .wl-tb.on { color:#111; }
-  .wl-tb.on span { font-weight:600; }
-
   /* ===== 移动端浏览器适配：触摸目标 / 防双击缩放 ===== */
-  .wl-row, .wl-tab, .wl-chip, .wz-chip, .wl-add, .wl-tb, .wl-sort, .wl-sheet-x, .wz-card {
+  .wl-row, .wl-tab, .wl-chip, .wz-chip, .wl-add, .wl-sort, .wl-sheet-x, .wz-card {
     touch-action:manipulation; }
   .wl-tabs, .wz-chips { -webkit-overflow-scrolling:touch; }
 
@@ -909,7 +902,7 @@
                 <span class="wl-code">{{ s.code }}</span>
                 <span class="wl-tag" :class="{mid: riskOf(s)==='中', low: riskOf(s)==='低'}">风险 {{ riskOf(s) }}</span>
               </div>
-              <div class="wl-risk">{{ mRiskLine(s) }}</div>
+              <div class="wl-risk"><span class="wl-time">{{ mSignalTime(s) }}</span>{{ mRiskLine(s) }}</div>
             </div>
             <div class="wl-right">
               <div class="wl-price">{{ s.price.toFixed(2) }}</div>
@@ -921,26 +914,6 @@
         <div v-else class="wl-empty">该市场暂无自选标的</div>
 
         <div class="wl-foot">仅供参考，不构成投资建议</div>
-      </div>
-
-      <!-- 底部 tab 栏（自选为当前页，其余模块桌面端已实现） -->
-      <div class="wl-tabbar">
-        <button class="wl-tb on" @click="mTabTap('自选')">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 18l5-7 4 3 6-8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="19" cy="6" r="2.2" fill="currentColor"/></svg>
-          <span>自选</span>
-        </button>
-        <button class="wl-tb" @click="mTabTap('前瞻')">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <span>前瞻</span>
-        </button>
-        <button class="wl-tb" @click="mTabTap('异动')">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-          <span>异动</span>
-        </button>
-        <button class="wl-tb" @click="mTabTap('我的')">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c0-3.3 3.1-5.4 7-5.4S19 16.7 19 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <span>我的</span>
-        </button>
       </div>
 
       <!-- 添加自选（底部弹出） -->
@@ -1770,9 +1743,15 @@ createApp({
       if (this.mSort === k) this.mSortDir = -this.mSortDir;
       else { this.mSort = k; this.mSortDir = -1; }
     },
-    mTabTap(name) {
-      if (name === '自选') return;
-      TDesign.MessagePlugin.info('演示环境：移动端「' + name + '」页待接入 · 桌面端已实现');
+    // 高关注信息的时点：优先取该股最近的前瞻/待落地时点，无则取最新事件时点
+    mSignalTime(s) {
+      const list = EVENTS[s.code] || [];
+      if (!list.length) return '';
+      const fwd = list.filter(e => e.kind === 'pending' || e.kind === 'fs')
+        .sort((a, b) => this.dayNum(a.t) - this.dayNum(b.t));
+      if (fwd.length) return fwd[0].t;
+      const past = list.slice().sort((a, b) => this.dayNum(a.t) - this.dayNum(b.t));
+      return past[past.length - 1].t;
     },
     mRiskLine(s) {
       const r = this.riskBoard.find(b => b.code === s.code);
