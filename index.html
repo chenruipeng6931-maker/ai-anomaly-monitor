@@ -968,10 +968,6 @@
                 <li v-for="(l,j) in e.lines" :key="j"><b>{{ l[0] }}：</b>{{ l[1] }}<span v-if="l[2]" class="wz-dir" :class="(l[2]==='利好'||l[2]==='利多') ? 'dir-up' : ((l[2]==='利空'||l[2]==='利淡') ? 'dir-down' : 'dir-flat')">{{ l[2] }}</span></li>
               </ul>
               <template v-if="e.fact">
-                <div class="wz-c-sec">
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/><path d="M15 9l-2.2 4.4L8 15l2.2-4.4L15 9z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
-                  意味着什么
-                </div>
                 <div class="wz-c-mean">{{ e.fact }}</div>
               </template>
             </div>
