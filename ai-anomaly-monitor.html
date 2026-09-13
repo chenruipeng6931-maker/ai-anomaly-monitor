@@ -887,7 +887,6 @@
           <span class="wl-sub-r">
             <button class="wl-sort" :class="{on: mSort==='最新价'}" @click="mSortTap('最新价')">最新价<i>{{ mSort==='最新价' ? (mSortDir>0?'▲':'▼') : '⇅' }}</i></button>
             <button class="wl-sort" :class="{on: mSort==='涨跌幅'}" @click="mSortTap('涨跌幅')">涨跌幅<i>{{ mSort==='涨跌幅' ? (mSortDir>0?'▲':'▼') : '⇅' }}</i></button>
-            <button class="wl-sort" :class="{on: mSort==='状态'}" @click="mSortTap('状态')">状态<i>{{ mSort==='状态' ? (mSortDir>0?'▲':'▼') : '⇅' }}</i></button>
           </span>
         </div>
 
@@ -1616,8 +1615,6 @@ createApp({
       const arr = this.stocks.filter(s => this.marketFilter === '全部' || s.market === this.marketFilter);
       if (this.mSort === '最新价') return [...arr].sort((a, b) => (a.price - b.price) * this.mSortDir);
       if (this.mSort === '涨跌幅') return [...arr].sort((a, b) => (a.chg - b.chg) * this.mSortDir);
-      if (this.mSort === '状态') return [...arr].sort((a, b) =>
-        ((w[this.riskOf(a)] - w[this.riskOf(b)]) * this.mSortDir) || (Math.abs(b.chg) - Math.abs(a.chg)));
       return [...arr].sort((a, b) =>
         (w[this.riskOf(b)] - w[this.riskOf(a)]) || (Math.abs(b.chg) - Math.abs(a.chg)));
     },
