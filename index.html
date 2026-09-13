@@ -566,8 +566,8 @@
             <div class="card">
               <div class="card-title">自选股日报<span class="card-extra">日级复盘 · 收盘后生成</span></div>
               <div class="mono-card" style="margin-top:12px;">【自选股日报 · 9/11】
-异动 3 只：宁德时代 -2.23%（创 90 日新低、量能比 1.37，只描述不归因）；隆基绿能 -3.25%（与装机数据同向，数据印证型）；中芯国际 -1.49%（行业数据高增 vs 股价在 90 日低位，背离只描述）
-未触发阈值：比亚迪 +0.57%、贵州茅台 -0.78%、招商银行 -0.53%（A 股 ±2% 线）；腾讯控股 +0.66%、美团-W +0.47%（港股 ±3% 线）
+技术面信号 3 只：宁德时代 -2.23%（创 90 日新低、量能比 1.37 放量，只描述不归因）；隆基绿能 -3.25%（创 90 日新低，与装机数据同向）；中芯国际 -1.49%（90 日最低附近、缩量，与行业数据背离）
+未触发涨跌幅阈值（A 股 ±4%、港股 ±3%）：比亚迪 +0.57%、贵州茅台 -0.78%、招商银行 -0.53%、腾讯控股 +0.66%、美团-W +0.47%
 事件级 1 项：比亚迪 8 月新能源车销量 44.03 万辆、同比 +17.9%（前 8 月累计 266.8 万辆、-6.84%，公司公告 9/01）
 前瞻：数据发布 4 项（社零烟酒类 9/15 · 社零汽车类 9/15 · 动力电池 8 月装车量 9 月中下旬 · 光伏 8 月装机 9 月中下旬）+ 日历事件 2 项（LPR 9/21 · FOMC 9/17）
 仅供参考，不构成投资建议</div>
@@ -804,13 +804,13 @@
       <div style="font-size:13px;color:var(--td-text-color-secondary)">{{ curFs.summary }}（{{ curFs.source }}）<br>时间 {{ curFs.date }}</div>
 
       <div class="d-sec">
-        <div class="d-sec-t">情景化前瞻（预置分支 · 落地后回填）</div>
+        <div class="d-sec-t">情景化前瞻（预置分支 · 落地后按实际值对照）</div>
         <div class="gate-box" style="margin-bottom:10px;">预期：{{ curFs.expect }}</div>
         <div class="scen" v-for="sc in curFs.scenarios" :key="sc.k">
           <b :style="{color: sc.color}">若{{ sc.k }} →</b>
           {{ sc.v }}
         </div>
-        <div style="font-size:12px;color:var(--td-text-color-placeholder);line-height:20px;">情景分档只写条件与传导路径，不预测哪一档会发生；事件落地后按实际值对照回填，转为事实归因卡并回链"此前已前瞻"。</div>
+        <div style="font-size:12px;color:var(--td-text-color-placeholder);line-height:20px;">三档只写条件与对应结果，不预测哪一档会发生；落地后按实际值对照，转为事实卡。</div>
       </div>
       <div class="d-sec">
         <t-button theme="primary" variant="light" block @click="fsDrawer=false">已了解，纳入 7 日监控</t-button>
@@ -1501,7 +1501,7 @@ const TIERS = [
   { name:'免费版', price:'¥0', unit:'/月', desc:'体验事前预警', cta:'立即使用',
     features:['自选标的 ≤ 5 只','每日 1 次前瞻日历推送','异动快讯（延迟 30 分钟）','基础风险提示'] },
   { name:'Pro 版', price:'¥30', unit:'/月（年费¥365）', desc:'个人投资者的风控 Agent', hot:true, cta:'开通 Pro',
-    features:['自选标的不限量','盘中 5 分钟扫描实时推送','情景化前瞻 + 落地回填','完整事实链（来源＋时点＋数值）与核验过程','行业映射覆盖申请','月度风险复盘报告'] },
+    features:['自选标的不限量','盘中 5 分钟扫描实时推送','情景化前瞻与落地后对照','完整事实链（来源＋时点＋数值）与核验过程','行业映射覆盖申请','月度风险复盘报告'] },
   { name:'机构版', price:'面议', unit:'', desc:'券商/私募的风控基础设施', cta:'预约演示',
     features:['API 信号流接入','白标嵌入自有 App','全市场异动监测信息集','行业映射表定制扩展','私有化部署选项'] }
 ];
@@ -1606,7 +1606,7 @@ createApp({
     },
     mGenericAnalysis() {
       if (!this.mEvent) return '';
-      if (this.mEvent.dot === 't-fill') return '该事件尚未落地。按 SOP 只提示波动可能，不预测方向与幅度；事件落地后将对照预置情景分支回填，转为事实归因卡并回链"此前已前瞻"。';
+      if (this.mEvent.dot === 't-fill') return '该事件尚未落地，只提示波动可能，不预测方向与幅度；落地后按实际值对照情景分支，转为事实卡。';
       if (this.mEvent.dot === 't-review') return '例行监控 / 复盘留痕，当前无异常信号。继续按既定阈值（A股 ±4% / 港股 ±3%）、发布日历与技术面窗口跟踪。';
       return '该节点为监控留痕。后续如出现可溯源的一手事实（公司公告、官方或交易所数据），将在此补充完整归因；无事实不归因。';
     },
@@ -1889,7 +1889,7 @@ createApp({
         conclusion:'触发日内涨跌幅阈值监控；30 天内没有可溯源的一手数据印证，仅报异动、不归因',
         facts:[],
         gateNote:'盘中扫描命中价格阈值 → 进入②识别，但未通过相关性初筛或找不到完整事实 → 只报异动，不归因。',
-        fullText:'【异动】' + st.name + '(' + st.code + ') ' + (chg >= 0 ? '+' : '') + chg + '%，量比 ' + ratio + '\n触发日内涨跌幅阈值监控，30 天内无可溯源权威数据印证，仅报异动，不归因\n仅供参考，不构成投资建议'
+        fullText:'【异动】' + st.name + '(' + st.code + ') ' + (chg >= 0 ? '+' : '') + chg + '%，量比 ' + ratio + '\n触发日内涨跌幅阈值监控，30 天内没有可溯源的一手数据印证，仅报异动、不归因\n仅供参考，不构成投资建议'
       } : {
         id: ++this.alertSeq, level:'盘中级', cardCls:'lv-intra', gate:'数据印证型', gateTheme:'primary', time:'刚刚',
         name: st.name, code: st.code, chg: chg,
